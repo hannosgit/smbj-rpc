@@ -1,3 +1,5 @@
+package com.rapid7;
+
 import com.rapid7.client.dcerpc.msrrp.RegistryService;
 import com.rapid7.client.dcerpc.mssrvs.ServerService;
 import com.rapid7.client.dcerpc.transport.RPCTransport;

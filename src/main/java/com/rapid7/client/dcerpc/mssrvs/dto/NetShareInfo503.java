@@ -63,6 +63,6 @@ public class NetShareInfo503 extends NetShareInfo502 {
                 formatString(getNetName()), getType(), formatString(getRemark()),
                 getPermissions(), getMaxUses(), getCurrentUses(), formatString(getPasswd()),
                 formatString(getPasswd()), formatString(getServerName()),
-                (getSecurityDescriptor() == null ? "null" : getSecurityDescriptor().length));
+                (super.securityDescriptor == null ? "null" : super.securityDescriptor.length));
     }
 }

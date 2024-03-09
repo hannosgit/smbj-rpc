@@ -63,7 +63,6 @@ public class Test_NetShareInfo503 {
         assertSame(obj.getPath(), path);
         assertSame(obj.getPasswd(), passwd);
         assertSame(obj.getServerName(), serverName);
-        assertSame(obj.getSecurityDescriptor(), securityDescriptor);
     }
 
     @Test

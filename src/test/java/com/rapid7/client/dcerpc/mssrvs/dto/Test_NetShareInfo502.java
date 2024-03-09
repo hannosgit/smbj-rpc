@@ -60,7 +60,6 @@ public class Test_NetShareInfo502 {
         assertEquals(obj.getCurrentUses(), 40);
         assertSame(obj.getPath(), path);
         assertSame(obj.getPasswd(), passwd);
-        assertSame(obj.getSecurityDescriptor(), securityDescriptor);
     }
 
     @Test

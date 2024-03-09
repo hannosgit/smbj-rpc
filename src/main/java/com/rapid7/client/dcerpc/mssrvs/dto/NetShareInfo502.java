@@ -21,11 +21,16 @@
 
 package com.rapid7.client.dcerpc.mssrvs.dto;
 
+import com.hierynomus.msdtyp.SecurityDescriptor;
+import com.hierynomus.protocol.commons.buffer.Buffer;
+import com.hierynomus.smb.SMBBuffer;
+import com.hierynomus.smbj.common.SMBRuntimeException;
+
 import java.util.Arrays;
 
 public class NetShareInfo502 extends NetShareInfo2 {
 
-    private final byte[] securityDescriptor;
+    protected final byte[] securityDescriptor;
 
     public NetShareInfo502(final String netName, final int type, final String remark,
             final int permissions, final int maxUses, final int currentUses, final String path,
@@ -34,13 +39,20 @@ public class NetShareInfo502 extends NetShareInfo2 {
         this.securityDescriptor = securityDescriptor;
     }
 
-    public byte[] getSecurityDescriptor() {
-        return securityDescriptor;
+    public SecurityDescriptor getSecurityDescriptor() {
+        if(securityDescriptor == null){
+            return null;
+        }
+        try {
+            return SecurityDescriptor.read(new SMBBuffer(securityDescriptor));
+        } catch (Buffer.BufferException e) {
+            throw new SMBRuntimeException(e);
+        }
     }
 
     @Override
     public int hashCode() {
-        return (31 * super.hashCode()) + Arrays.hashCode(getSecurityDescriptor());
+        return (31 * super.hashCode()) + Arrays.hashCode(this.securityDescriptor);
     }
 
     @Override
@@ -52,7 +64,7 @@ public class NetShareInfo502 extends NetShareInfo2 {
         }
         final NetShareInfo502 other = (NetShareInfo502) obj;
         return super.equals(obj)
-                && Arrays.equals(getSecurityDescriptor(), other.getSecurityDescriptor());
+                && Arrays.equals(this.securityDescriptor, other.securityDescriptor);
     }
 
     @Override
@@ -62,6 +74,6 @@ public class NetShareInfo502 extends NetShareInfo2 {
                         "passwd: %s, size(securityDescriptor): %s}",
                 formatString(getNetName()), getType(), formatString(getRemark()),
                 getPermissions(), getMaxUses(), getCurrentUses(), formatString(getPasswd()),
-                formatString(getPasswd()), (getSecurityDescriptor() == null ? "null" : getSecurityDescriptor().length));
+                formatString(getPasswd()), (this.securityDescriptor == null ? "null" : this.securityDescriptor.length));
     }
 }

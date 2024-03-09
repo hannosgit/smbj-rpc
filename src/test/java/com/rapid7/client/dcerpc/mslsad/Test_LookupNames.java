@@ -19,8 +19,9 @@
 
 package com.rapid7.client.dcerpc.mslsad;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.testng.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import java.io.IOException;

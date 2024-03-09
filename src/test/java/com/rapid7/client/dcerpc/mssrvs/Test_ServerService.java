@@ -33,7 +33,7 @@ import com.rapid7.client.dcerpc.mssrvs.objects.ShareInfoContainer;
 import com.rapid7.client.dcerpc.objects.WChar;
 import com.rapid7.client.dcerpc.transport.RPCTransport;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

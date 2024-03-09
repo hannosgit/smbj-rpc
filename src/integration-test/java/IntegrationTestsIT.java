@@ -10,8 +10,6 @@ import com.hierynomus.smbj.auth.AuthenticationContext;
 import com.hierynomus.smbj.connection.Connection;
 import com.hierynomus.smbj.session.Session;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,6 +17,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.images.builder.ImageFromDockerfile;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -27,13 +26,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Testcontainers
 class IntegrationTestsIT
 {
-   private static final Path DOCKER_BUILD_CONTEXT = Paths.get("src", "integration-test", "resources", "docker-image");
 
    @Container
-   private static final GenericContainer<?> sambaContainer = new GenericContainer(
-      new ImageFromDockerfile()
-         .withFileFromPath(".", DOCKER_BUILD_CONTEXT))
-         .withExposedPorts(445);
+   private static final GenericContainer<?> sambaContainer = new GenericContainer<>(
+           new ImageFromDockerfile()
+                   .withFileFromClasspath("public", "docker-image/public")
+                   .withFileFromClasspath("smb.conf", "docker-image/smb.conf")
+                   .withFileFromClasspath("entrypoint.sh", "docker-image/entrypoint.sh")
+                   .withFileFromClasspath("supervisord.conf", "docker-image/supervisord.conf")
+                   .withFileFromClasspath("Dockerfile", "docker-image/Dockerfile")
+           )
+           .withExposedPorts(445)
+           .waitingFor(Wait.forLogMessage(".*nmbd entered RUNNING state.*\\n", 1));
 
    @ParameterizedTest
    @MethodSource("testWinRegDoesKeyExistForEachSupportedSMBVersionArgs")
@@ -43,7 +47,7 @@ class IntegrationTestsIT
    {
       final SmbConfig smbConfig = SmbConfig.builder().withSecurityProvider(new BCSecurityProvider()).withDialects(dialect).build();
       final SMBClient smbClient = new SMBClient(smbConfig);
-      try (final Connection smbConnection = smbClient.connect("localhost", sambaContainer.getMappedPort(445))) {
+      try (final Connection smbConnection = smbClient.connect("localhost", sambaContainer.getFirstMappedPort())) {
          final AuthenticationContext smbAuthenticationContext = new AuthenticationContext("smbj", "smbj".toCharArray(), "");
          final Session session = smbConnection.authenticate(smbAuthenticationContext);
 
@@ -63,7 +67,7 @@ class IntegrationTestsIT
    {
       final SmbConfig smbConfig = SmbConfig.builder().withSecurityProvider(new BCSecurityProvider()).withDialects(dialect).build();
       final SMBClient smbClient = new SMBClient(smbConfig);
-      try (final Connection smbConnection = smbClient.connect("localhost", sambaContainer.getMappedPort(445))) {
+      try (final Connection smbConnection = smbClient.connect("localhost", sambaContainer.getFirstMappedPort())) {
          final AuthenticationContext smbAuthenticationContext = new AuthenticationContext("smbj", "smbj".toCharArray(), "");
          final Session session = smbConnection.authenticate(smbAuthenticationContext);
 

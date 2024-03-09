@@ -342,7 +342,7 @@ public class SecurityAccountManagerService extends Service {
                 return "SamrEnumerateDomainsInSamServer";
             }
             @Override
-            public SamrEnumerateResponse request(final int enumContext) throws IOException {
+            public SamrEnumerateResponse<?> request(final int enumContext) throws IOException {
                 final SamrEnumerateDomainsInSamServerRequest request =
                         new SamrEnumerateDomainsInSamServerRequest(serverHandleBytes, enumContext, bufferSize);
                 return call(request);
@@ -386,7 +386,7 @@ public class SecurityAccountManagerService extends Service {
                 return "SamrEnumerateAliasesInDomain";
             }
             @Override
-            public SamrEnumerateResponse request(final int enumContext) throws IOException {
+            public SamrEnumerateResponse<?> request(final int enumContext) throws IOException {
                 final SamrEnumerateAliasesInDomainRequest request =
                         new SamrEnumerateAliasesInDomainRequest(domainHandleBytes, enumContext, bufferSize);
                 return call(request);
@@ -428,7 +428,7 @@ public class SecurityAccountManagerService extends Service {
                 return "SamrEnumerateGroupsInDomain";
             }
             @Override
-            public SamrEnumerateResponse request(int enumContext) throws IOException {
+            public SamrEnumerateResponse<?> request(int enumContext) throws IOException {
                 final SamrEnumerateGroupsInDomainRequest request = new SamrEnumerateGroupsInDomainRequest(
                         domainHandleBytes, enumContext, bufferSize);
                 return call(request);
@@ -487,7 +487,7 @@ public class SecurityAccountManagerService extends Service {
                 return "SamrEnumerateUsersInDomain";
             }
             @Override
-            public SamrEnumerateResponse request(int enumContext) throws IOException {
+            public SamrEnumerateResponse<?> request(int enumContext) throws IOException {
                 final SamrEnumerateUsersInDomainRequest request = new SamrEnumerateUsersInDomainRequest(
                         domainHandleBytes, enumContext, userAccountControl, bufferSize);
                 return call(request);
@@ -922,11 +922,11 @@ public class SecurityAccountManagerService extends Service {
      */
     private <T> void enumerate(final List<T> list, final EnumerationCallback callback) throws IOException {
         for (int enumContext = 0;;) {
-            final SamrEnumerateResponse response = callback.request(enumContext);
+            final SamrEnumerateResponse<?> response = callback.request(enumContext);
             final int returnCode = response.getReturnValue();
             enumContext = response.getResumeHandle();
             //noinspection unchecked
-            final List<T> responseList = response.getList();
+            final List<T> responseList = (List<T>) response.getList();
             if (ERROR_MORE_ENTRIES.is(returnCode) || ERROR_NO_MORE_ITEMS.is(returnCode) || ERROR_SUCCESS.is(returnCode)) {
                 if (responseList != null)
                     list.addAll(responseList);
@@ -944,7 +944,7 @@ public class SecurityAccountManagerService extends Service {
      */
     private interface EnumerationCallback {
         String getName();
-        SamrEnumerateResponse request(int enumContext) throws IOException;
+        SamrEnumerateResponse<?> request(int enumContext) throws IOException;
     }
 
     private ServerHandle parseServerHandle(final HandleResponse response) {

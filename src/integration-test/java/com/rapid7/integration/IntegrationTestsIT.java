@@ -11,6 +11,7 @@ import com.rapid7.client.dcerpc.msrrp.RegistryService;
 import com.rapid7.client.dcerpc.mssrvs.ServerService;
 import com.rapid7.client.dcerpc.transport.RPCTransport;
 import com.rapid7.client.dcerpc.transport.SMBTransportFactories;
+import com.rapid7.integration.util.SambaContainer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

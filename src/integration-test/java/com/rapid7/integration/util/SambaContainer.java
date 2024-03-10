@@ -1,4 +1,4 @@
-package com.rapid7.integration;
+package com.rapid7.integration.util;
 
 import com.hierynomus.smbj.auth.AuthenticationContext;
 import org.testcontainers.containers.GenericContainer;

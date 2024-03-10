@@ -44,20 +44,24 @@
    </distributionManagement>
 
    <properties>
+       <maven.compiler.target>1.8</maven.compiler.target>
+       <maven.compiler.source>1.8</maven.compiler.source>
+       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
       <thirdparty.commons-io.version>2.15.1</thirdparty.commons-io.version>
       <thirdparty.commons-lang3.version>3.14.0</thirdparty.commons-lang3.version>
       <thirdparty.guava.version>33.0.0-jre</thirdparty.guava.version>
-      <thirdparty.hamcrest.version>2.2</thirdparty.hamcrest.version>
-      <thirdparty.junit.version>5.10.2</thirdparty.junit.version>
-      <thirdparty.mockito.version>5.11.0</thirdparty.mockito.version>
       <thirdparty.smbj.version>0.13.0</thirdparty.smbj.version>
-      <thirdparty.testng.version>7.9.0</thirdparty.testng.version>
-      <thirdparty.bouncycastle.version>1.77</thirdparty.bouncycastle.version>
-      <thirdparty.testcontainers.version>1.19.7</thirdparty.testcontainers.version>
+       <thirdparty.bouncycastle.version>1.77</thirdparty.bouncycastle.version>
 
-      <maven.compiler.target>1.8</maven.compiler.target>
-      <maven.compiler.source>1.8</maven.compiler.source>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+       <!-- test dependencies -->
+       <thirdparty.hamcrest.version>2.2</thirdparty.hamcrest.version>
+       <thirdparty.junit.version>5.10.2</thirdparty.junit.version>
+       <thirdparty.slf4j-simple.version>2.0.12</thirdparty.slf4j-simple.version>
+       <thirdparty.testcontainers.version>1.19.7</thirdparty.testcontainers.version>
+       <thirdparty.testng.version>7.9.0</thirdparty.testng.version>
+       <thirdparty.assertj-core.version>3.25.3</thirdparty.assertj-core.version>
+       <thirdparty.mockito.version>5.11.0</thirdparty.mockito.version>
    </properties>
 
    <dependencies>
@@ -117,11 +121,9 @@
        <dependency>
            <groupId>org.assertj</groupId>
            <artifactId>assertj-core</artifactId>
-           <version>3.25.3</version>
+           <version>${thirdparty.assertj-core.version}</version>
            <scope>test</scope>
        </dependency>
-
-
        <dependency>
            <groupId>org.testcontainers</groupId>
            <artifactId>junit-jupiter</artifactId>
@@ -132,30 +134,18 @@
        <dependency>
            <groupId>org.slf4j</groupId>
            <artifactId>slf4j-simple</artifactId>
-           <version>2.0.12</version>
+           <version>${thirdparty.slf4j-simple.version}</version>
            <scope>test</scope>
        </dependency>
        <dependency>
            <groupId>org.junit.jupiter</groupId>
-           <artifactId>junit-jupiter-api</artifactId>
-           <version>${thirdparty.junit.version}</version>
-           <scope>test</scope>
-       </dependency>
-       <dependency>
-           <groupId>org.junit.jupiter</groupId>
-           <artifactId>junit-jupiter-engine</artifactId>
+           <artifactId>junit-jupiter</artifactId>
            <version>${thirdparty.junit.version}</version>
            <scope>test</scope>
        </dependency>
        <dependency>
            <groupId>org.junit.vintage</groupId>
            <artifactId>junit-vintage-engine</artifactId>
-           <version>${thirdparty.junit.version}</version>
-           <scope>test</scope>
-       </dependency>
-       <dependency>
-           <groupId>org.junit.jupiter</groupId>
-           <artifactId>junit-jupiter-params</artifactId>
            <version>${thirdparty.junit.version}</version>
            <scope>test</scope>
        </dependency>

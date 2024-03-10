@@ -1,11 +1,17 @@
-package com.rapid7;
+package com.rapid7.integration;
 
 import com.hierynomus.smbj.auth.AuthenticationContext;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.images.builder.ImageFromDockerfile;
 
-public class SambaContainer {
+public class SambaContainer extends GenericContainer<SambaContainer> {
+
+    public static String USERNAME = "smbj";
+
+    public static char[] PASSWORD = "smbj".toCharArray();
+
+    public static String DOMAIN = "";
 
     public static GenericContainer<?> create() {
         return new GenericContainer<>(
@@ -23,11 +29,5 @@ public class SambaContainer {
     public static AuthenticationContext getAuthenticationContext(){
         return new AuthenticationContext(USERNAME, PASSWORD, DOMAIN);
     }
-
-    public static String USERNAME = "smbj";
-
-    public static char[] PASSWORD = "smbj".toCharArray();
-
-    public static String DOMAIN = "";
 
 }

@@ -1,9 +1,5 @@
-package com.rapid7;
+package com.rapid7.integration;
 
-import com.rapid7.client.dcerpc.msrrp.RegistryService;
-import com.rapid7.client.dcerpc.mssrvs.ServerService;
-import com.rapid7.client.dcerpc.transport.RPCTransport;
-import com.rapid7.client.dcerpc.transport.SMBTransportFactories;
 import com.hierynomus.mssmb2.SMB2Dialect;
 import com.hierynomus.security.bc.BCSecurityProvider;
 import com.hierynomus.smbj.SMBClient;
@@ -11,18 +7,22 @@ import com.hierynomus.smbj.SmbConfig;
 import com.hierynomus.smbj.auth.AuthenticationContext;
 import com.hierynomus.smbj.connection.Connection;
 import com.hierynomus.smbj.session.Session;
-import java.io.IOException;
-import java.util.stream.Stream;
+import com.rapid7.client.dcerpc.msrrp.RegistryService;
+import com.rapid7.client.dcerpc.mssrvs.ServerService;
+import com.rapid7.client.dcerpc.transport.RPCTransport;
+import com.rapid7.client.dcerpc.transport.SMBTransportFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.images.builder.ImageFromDockerfile;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.io.IOException;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Testcontainers
@@ -30,16 +30,7 @@ class IntegrationTestsIT
 {
 
    @Container
-   private static final GenericContainer<?> sambaContainer = new GenericContainer<>(
-           new ImageFromDockerfile()
-                   .withFileFromClasspath("public", "docker-image/public")
-                   .withFileFromClasspath("smb.conf", "docker-image/smb.conf")
-                   .withFileFromClasspath("entrypoint.sh", "docker-image/entrypoint.sh")
-                   .withFileFromClasspath("supervisord.conf", "docker-image/supervisord.conf")
-                   .withFileFromClasspath("Dockerfile", "docker-image/Dockerfile")
-           )
-           .withExposedPorts(445)
-           .waitingFor(Wait.forLogMessage(".*nmbd entered RUNNING state.*\\n", 1));
+   private static final GenericContainer<?> sambaContainer = SambaContainer.create();
 
    @ParameterizedTest
    @MethodSource("testWinRegDoesKeyExistForEachSupportedSMBVersionArgs")

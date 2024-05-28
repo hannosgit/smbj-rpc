@@ -5,43 +5,7 @@
    <packaging>jar</packaging>
    <version>0.12.2-SNAPSHOT</version>
    <name>dcerpc</name>
-   <url>https://www.rapid7.com</url>
    <description>DCE-RPC implementation capable of using SMBv2 via SMBJ to invoke remote procedure calls (RPC) over the IPC$ named pipe.</description>
-
-   <scm>
-      <connection>scm:git:git@github.com:rapid7/smbj-rpc.git</connection>
-      <developerConnection>scm:git:git@github.com:rapid7/smbj-rpc.git</developerConnection>
-      <url>https://github.com/rapid7/smbj-rpc</url>
-     <tag>HEAD</tag>
-  </scm>
-
-   <developers>
-      <developer>
-         <id>pmiseiko</id>
-         <name>Paul-Andrew Joseph Miseiko</name>
-         <email>pmiseiko@rapid7.com</email>
-         <url>https://www.rapid7.com</url>
-      </developer>
-   </developers>
-
-   <licenses>
-      <license>
-         <name>BSD-3-Clause</name>
-         <url>https://opensource.org/licenses/BSD-3-Clause</url>
-         <distribution>repo</distribution>
-      </license>
-   </licenses>
-
-   <distributionManagement>
-      <snapshotRepository>
-         <id>ossrh</id>
-         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-      </snapshotRepository>
-      <repository>
-         <id>ossrh</id>
-         <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-      </repository>
-   </distributionManagement>
 
    <properties>
        <maven.compiler.target>1.8</maven.compiler.target>
@@ -224,17 +188,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.3</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
                         <version>3.0.1</version>
@@ -256,20 +209,6 @@
                                 <id>attach-javadocs</id>
                                 <goals>
                                     <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
                                 </goals>
                             </execution>
                         </executions>

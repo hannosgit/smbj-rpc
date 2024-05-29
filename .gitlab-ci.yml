@@ -1,0 +1,7 @@
+# IMPORT SHARED DEFINITIONS
+# =========================
+include:
+  # global variables
+  - file: '/include/maven_library.yml'
+    project: 'infrastructure/automation-pipeline'
+    ref: ${AUTOMATION_PIPELINE_REF}
